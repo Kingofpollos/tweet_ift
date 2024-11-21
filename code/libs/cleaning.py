@@ -1,5 +1,6 @@
 import re
 import string
+import emoji
 from nltk.corpus import stopwords
 from unidecode import unidecode
 
@@ -10,13 +11,31 @@ rid = ["las", "los", "se", "les", "he", "ha", "haber", "mi", "sus", "que", "el",
         "una", "ver", "ahi", "cómo", "entonces", "vamos","va","mil","aqui","pues", "ahora","uno",
         "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez", "cien","van",
         "ser", "asi","mas", "estan","tambien","millones","usted","hacer","ciento","parte","hoy",
-        "buenos", "dias", "senor", "gracias", "llevar", "cabo", "presidente"]
+        "buenos", "dias", "senor", "gracias", "llevar", "cabo", "presidente", "tuitutil",
+        "jaja", "jajaja", "jajajaja", "jajajajaja"]
 
 def clean_text_round0(text):
     '''
     Remueve links
     '''
+    text = unidecode(text.lower())
     text = re.sub(r'http\S+', '', text)
+    return text
+
+def clean_text_emoji(text):
+    '''
+    Remueve emojis
+    '''
+    text = unidecode(text.lower())
+    text = re.sub(r':\)|:\(|:\*|:p|xd|:d|:o|:\||:\-|:\+|:\?|:\!|:\@|:\#|:\$|:\%|:\^|:\&|:\*|:\(|:\)|:\{|\}', '', text)
+    text = emoji.replace_emoji(text, replace='')
+    return text
+
+def clean_tweeter_user(text):
+    '''
+    Remueve los usuarios de twitter
+    '''
+    text = re.sub(r'\s?@\w+', '', text)
     return text
 
 def clean_text_round1(text):
@@ -65,6 +84,8 @@ def clean_all(text):
     """
     
     text = clean_text_round0(text)
+    text = clean_text_emoji(text)
+    text = clean_tweeter_user(text)
     text = clean_text_round1(text)
     text = clean_text_round2(text)
     text = clean_text_round3(text)
@@ -115,7 +136,7 @@ def clean_list(word):
         word = diccionario[word]
     return word
 
-def correccion_lista(lista, rid=rid):
+def correccion_lista(lista, rid=rid, del_stopwords=[]):
     """
     Recibe una lista con palabras individuales y las corrige si es necesario
     una por una.
@@ -129,6 +150,7 @@ def correccion_lista(lista, rid=rid):
         +Lista con palabras corregidas
     """
     stop_words = set(stopwords.words('spanish')+rid)
+    stop_words = [x for x in stop_words if x not in del_stopwords]
     lista_corregida = [clean_list(palabra) for palabra in lista if palabra not in stop_words]
     return lista_corregida
 
@@ -145,7 +167,7 @@ def lista_a_frase(lista):
     
     return  " ".join(lista)
 
-def limpieza_total(serie):
+def limpieza_total(serie, del_stopwords=[]):
     """
     Aplica las funciones:
         1) clean_all
@@ -161,4 +183,4 @@ def limpieza_total(serie):
         +Serie de Pandas con los comentarios limpios
     """
     
-    return serie.astype(str).apply(clean_all).str.split().apply(correccion_lista).apply(lista_a_frase)
+    return serie.astype(str).apply(clean_all).str.split().apply(lambda x: correccion_lista(x, del_stopwords=del_stopwords)).apply(lista_a_frase)
