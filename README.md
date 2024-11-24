@@ -26,3 +26,11 @@ Se dejan los scripts output.py y app.py por si son necesarios para la implementa
 
 ## Análisis previo
 El principal análisis se encuentra en los Notebooks **clasif_telecom.ipynb** y **sentiment.ipynb**, en ambos casos se decidió usar TfIdf como vectorizador, ya que arrojó muchos mejores resultados que word2vec
+
+## Librerías necesarias
+Se necesitan las siguientes librerías:
++ pandas
++ nltk
++ sklearn
++ pickle
++ os
