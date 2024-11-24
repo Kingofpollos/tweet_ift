@@ -12,7 +12,8 @@ rid = ["las", "los", "se", "les", "he", "ha", "haber", "mi", "sus", "que", "el",
         "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez", "cien","van",
         "ser", "asi","mas", "estan","tambien","millones","usted","hacer","ciento","parte","hoy",
         "buenos", "dias", "senor", "gracias", "llevar", "cabo", "presidente", "tuitutil",
-        "jaja", "jajaja", "jajajaja", "jajajajaja"]
+        "jaja", "jajaja", "jajajaja", "jajajajaja", "rt", "follow", "seguirme", "voy", "rt",
+        "lt", "ir", "gt", "año", "ano", "dia", "mañana", "manana","mtvhottest", "bien", "buen"]
 
 def clean_text_round0(text):
     '''
