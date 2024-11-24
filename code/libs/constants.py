@@ -24,3 +24,6 @@ TRAIN_IFT = "/train_ift"
 TELECOM = "telecom"
 IFT_VECTORIZER = "tfidf_ift.pkl"
 IFT_MODEL = "ift_model.pkl"
+param_lr = {
+    'C': [0.1, 1, 10]
+}

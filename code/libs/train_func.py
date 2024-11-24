@@ -212,7 +212,7 @@ def train_model(X_train, y_train, param_grid,model, cv = 5, save_model = True,PA
     GS.fit(X_train, y_train)
     if save_model:
         with open(PATH, 'wb') as archivo:
-            pickle.dump(model, archivo)
+            pickle.dump(GS.best_estimator_, archivo)
     return GS.best_estimator_
 
 def eval_model(model, X_train, y_train, X_test, y_test):
